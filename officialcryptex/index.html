@@ -241,7 +241,7 @@
         const AUDIO_SRC = new URL('/officialcryptex/timeless.m4a', window.location.origin).toString();
         audioEl.src = AUDIO_SRC;
         audioEl.load();
-        soundBtn.textContent = 'Sound: Loading…';
+        soundBtn.textContent = 'Sound: On';
         console.log('Audio src resolved to', AUDIO_SRC);
 
         const profileCard = document.getElementById('profile-card');
@@ -292,22 +292,15 @@
 
         async function startAudio() {
             try {
-                // Attempt muted autoplay first; unmute after playback starts
-                const wasMuted = audioEl.muted;
-                audioEl.muted = true;
                 audioEl.volume = 0.4;
                 await audioEl.play();
-                // Unmute once playing; some browsers allow this post-play promise
-                setTimeout(() => { audioEl.muted = wasMuted ? false : audioEl.muted; }, 100);
                 soundOn = true;
                 soundBtn.textContent = 'Sound: On';
-                soundBtn.disabled = false;
                 return true;
             } catch (err) {
                 console.error('Audio start failed', err);
                 soundOn = false;
-                soundBtn.textContent = 'Sound: Tap to play';
-                soundBtn.disabled = false;
+                soundBtn.textContent = 'Sound: Off';
                 return false;
             }
         }
@@ -326,12 +319,7 @@
             }
         });
 
-        ['pointerdown', 'touchstart', 'keydown'].forEach(evt => {
-            document.addEventListener(evt, async () => { if (!soundOn) await startAudio(); }, { once: true });
-        });
-
         window.addEventListener('load', () => {
-            // Attempt autoplay on load; if blocked, button text already says tap to play
             startAudio();
         });
 
