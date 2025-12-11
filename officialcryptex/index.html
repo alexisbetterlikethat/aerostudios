@@ -223,7 +223,7 @@
     </div>
 
     <audio id="bg-audio" loop preload="auto" playsinline autoplay>
-        <source src="timeless.m4a" type="audio/m4a" />
+        <source src="timeless.m4a" type="audio/mp4" />
     </audio>
 
     <script>
@@ -242,6 +242,7 @@
         audioEl.src = AUDIO_SRC;
         audioEl.load();
         soundBtn.textContent = 'Sound: Loading…';
+        console.log('Audio src resolved to', AUDIO_SRC);
 
         const profileCard = document.getElementById('profile-card');
         const contactCard = document.getElementById('contact-card');
@@ -291,8 +292,13 @@
 
         async function startAudio() {
             try {
+                // Attempt muted autoplay first; unmute after playback starts
+                const wasMuted = audioEl.muted;
+                audioEl.muted = true;
                 audioEl.volume = 0.4;
                 await audioEl.play();
+                // Unmute once playing; some browsers allow this post-play promise
+                setTimeout(() => { audioEl.muted = wasMuted ? false : audioEl.muted; }, 100);
                 soundOn = true;
                 soundBtn.textContent = 'Sound: On';
                 soundBtn.disabled = false;
