@@ -198,7 +198,7 @@
     <div class="background-orb orb-2"></div>
 
     <div class="card-container" id="profile-card">
-        <button class="btn sound-corner" id="sound-toggle">Sound: Off</button>
+        <button class="btn sound-corner" id="sound-toggle">Sound: On</button>
         <div class="pfp-wrapper">
             <img src="../catpfp2.jpg" alt="Profile Picture" class="pfp">
         </div>
@@ -295,12 +295,10 @@
                 audioEl.volume = 0.4;
                 await audioEl.play();
                 soundOn = true;
-                soundBtn.textContent = 'Sound: On';
                 return true;
             } catch (err) {
                 console.error('Audio start failed', err);
                 soundOn = false;
-                soundBtn.textContent = 'Sound: Off';
                 return false;
             }
         }
@@ -308,7 +306,6 @@
         function stopAudio() {
             audioEl.pause();
             soundOn = false;
-            soundBtn.textContent = 'Sound: Off';
         }
 
         soundBtn.addEventListener('click', async () => {
@@ -325,8 +322,6 @@
 
         audioEl.addEventListener('error', () => {
             soundOn = false;
-            soundBtn.textContent = 'Sound: Load failed (check file path)';
-            soundBtn.disabled = false;
         });
 
         const textElement = document.getElementById('typing-text');
