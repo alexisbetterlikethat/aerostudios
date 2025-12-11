@@ -223,7 +223,7 @@
     </div>
 
     <audio id="bg-audio" loop preload="auto" playsinline autoplay>
-        <source src="timeless.m4a" type="audio/mp4" />
+        <source src="/officialcryptex/timeless.m4a" type="audio/mp4" />
     </audio>
 
     <script>
@@ -237,8 +237,8 @@
         const soundBtn = document.getElementById('sound-toggle');
         let soundOn = false;
 
-        // Force a fully qualified audio URL to avoid relative path issues after deploy
-        const AUDIO_SRC = new URL('timeless.m4a', window.location.href).toString();
+        // Force a fully qualified audio URL to the file inside /officialcryptex
+        const AUDIO_SRC = new URL('/officialcryptex/timeless.m4a', window.location.origin).toString();
         audioEl.src = AUDIO_SRC;
         audioEl.load();
         soundBtn.textContent = 'Sound: Loading…';
