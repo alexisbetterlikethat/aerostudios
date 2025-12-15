@@ -57,23 +57,22 @@
         .main-container {
             position: relative; 
             z-index: 10; 
-            height: 100vh; /* Set explicitly to full screen height */
+            min-height: 100vh; /* Keep full screen height */
             display: flex; 
             flex-direction: column;
-            justify-content: space-between; /* Space out title/buttons and the heading */
+            justify-content: space-between; 
             align-items: center;
             perspective: 1000px;
-            padding: 50px 0; /* Padding top and bottom */
+            padding: 50px 0 20px 0; /* Adjusted bottom padding */
         }
         
         .main-content-top {
-            /* Contains the title and buttons, centered in the upper part of the screen */
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             width: 100%;
-            flex-grow: 1; /* Pushes the WHY AERO heading to the bottom */
+            flex-grow: 1; 
             padding-top: 50px;
         }
         
@@ -116,9 +115,9 @@
         .dynamic-text { font-size: 1.5rem; color: var(--color-secondary); text-shadow: 0 0 10px var(--color-secondary); letter-spacing: 2px; }
         .cursor { display: inline-block; width: 10px; height: 25px; background-color: var(--color-primary); margin-left: 8px; animation: blink 1s step-end infinite; box-shadow: 0 0 10px var(--color-primary); }
 
-        /* Buttons (No changes needed, already have strong hover effects) */
+        /* Buttons */
         .button-group { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; position: relative; }
-        /* ... (Cyber button styles remain the same) ... */
+        
         .cyber-btn {
             position: relative; padding: 18px 45px; background: rgba(10, 10, 20, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1); color: white;
@@ -166,26 +165,14 @@
             filter: drop-shadow(0 0 10px var(--color-secondary));
             animation: bounceArrow 1s ease-in-out infinite;
         }
-        
-        /* =========================================
-           4. WHY AERO SECTION (SCROLL CONTENT)
-           ========================================= */
-        .why-aero-section {
-            position: relative; 
-            z-index: 10;
-            width: 90%; 
-            max-width: 1200px;
-            /* Pushes the entire section down 100vh so it is off-screen initially */
-            margin: 100vh auto 10rem auto; 
-            padding: 40px 0;
-        }
 
+        /* WHY AERO HEADING - Placed inside main-container to stay visible at the bottom of the first screen */
         .why-aero-heading {
             font-family: 'Orbitron', sans-serif;
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 700;
             text-align: center;
-            margin-bottom: 50px; 
+            margin-bottom: 20px; 
             color: var(--color-white);
             letter-spacing: 0.2rem;
             position: relative;
@@ -201,6 +188,19 @@
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-secondary), transparent);
             margin: 10px auto 0;
+        }
+
+        /* =========================================
+           4. WHY AERO SECTION (SCROLL CONTENT)
+           ========================================= */
+        .why-aero-section {
+            position: relative; 
+            z-index: 10;
+            width: 90%; 
+            max-width: 1200px;
+            /* Cards start immediately after main-container ends */
+            margin: 0 auto 10rem auto; 
+            padding: 40px 0;
         }
 
         .feature-grid {
