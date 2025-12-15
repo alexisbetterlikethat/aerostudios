@@ -40,15 +40,21 @@
             min-height: 200vh; /* Allow scrolling */
         }
 
-        /* Motion blur effect when scrolling */
-        body.scrolling #warp-canvas,
-        body.scrolling .main-container > *:not(.scanlines):not(.vignette) {
-            filter: blur(3px);
+        /* Motion blur effect when scrolling - only apply to main content, not background */
+        body.scrolling .main-container > *:not(.title-wrapper):not(.typewriter-container):not(.button-group):not(.why-aero-section) {
+            filter: blur(2px);
             transition: filter 0.1s ease-out;
         }
 
-        body:not(.scrolling) #warp-canvas,
-        body:not(.scrolling) .main-container > *:not(.scanlines):not(.vignette) {
+        body.scrolling .title-wrapper,
+        body.scrolling .typewriter-container,
+        body.scrolling .button-group,
+        body.scrolling .why-aero-section {
+            filter: blur(2px);
+            transition: filter 0.1s ease-out;
+        }
+
+        body:not(.scrolling) .main-container > * {
             filter: blur(0px);
             transition: filter 0.3s ease-out;
         }
