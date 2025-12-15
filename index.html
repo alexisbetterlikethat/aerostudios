@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght[300;500;700]&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================
@@ -28,7 +28,9 @@
         * { box-sizing: border-box; margin: 0; padding: 0; cursor: default; }
 
         body, html {
-            height: 100%; width: 100%; overflow: hidden;
+            height: 100%; width: 100%; 
+            /* CHANGE: Removed overflow: hidden; to allow scrolling for the new section */
+            overflow-y: auto; overflow-x: hidden; 
             font-family: 'Rajdhani', sans-serif;
             background-color: var(--color-bg);
             color: var(--color-white);
@@ -54,10 +56,13 @@
            3. MAIN UI
            ========================================= */
         .main-container {
-            position: relative; z-index: 10; height: 100%;
+            position: relative; z-index: 10; 
+            height: 100vh; /* Keep the top section full screen height */
+            min-height: 800px;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             perspective: 1000px;
+            padding-bottom: 50px;
         }
 
         .title-wrapper { display: flex; align-items: center; gap: 20px; margin-bottom: 2rem; animation: float 6s ease-in-out infinite; }
@@ -122,7 +127,7 @@
         .discord-arrow-container {
             position: absolute;
             top: -60px; /* Position above button group */
-            left: 20%; /* Rough alignment, JS calculates better usually but this works for flex */
+            left: 20%; 
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
@@ -136,9 +141,109 @@
             filter: drop-shadow(0 0 10px var(--color-secondary));
             animation: bounceArrow 1s ease-in-out infinite;
         }
+        
+        /* =========================================
+           4. NEW: WHY AERO SECTION
+           ========================================= */
+        .why-aero-section {
+            position: relative; 
+            z-index: 10;
+            width: 90%; 
+            max-width: 1200px;
+            margin: 5rem auto 10rem auto;
+            padding: 40px 0;
+        }
+
+        .why-aero-heading {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--color-white);
+            letter-spacing: 0.2rem;
+            position: relative;
+            /* Neon glow matching the title */
+            text-shadow: 
+                0 0 10px rgba(0, 188, 212, 0.8),
+                0 0 20px rgba(138, 43, 226, 0.6);
+        }
+        
+        .why-aero-heading::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-secondary), transparent);
+            margin: 10px auto 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0;
+        }
+
+        .feature-card {
+            background: rgba(10, 10, 30, 0.7);
+            border: 2px solid rgba(0, 188, 212, 0.2);
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            border-color: var(--color-primary);
+            box-shadow: 
+                0 0 10px var(--color-primary),
+                0 0 30px var(--color-secondary),
+                0 15px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px var(--color-secondary);
+        }
+
+        .card-description {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        /* Card background animated elements */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+            z-index: 1;
+        }
+
+        .feature-card:hover::before {
+            transform: rotate(45deg);
+        }
+        /* End New Section Styles */
 
         /* =========================================
-           4. MODAL & LOADER
+           5. MODAL & LOADER
            ========================================= */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
@@ -170,7 +275,7 @@
         }
         .progress-bar-fill {
             height: 100%; width: 0%; background: var(--color-secondary);
-            box-shadow: 0 0 10px var(--color-secondary); transition: width 0.2s ease-out; /* Smoother fill */
+            box-shadow: 0 0 10px var(--color-secondary); transition: width 0.2s ease-out; 
         }
 
         .modal-content { display: none; width: 100%; animation: fade-in-up 0.5s ease forwards; text-align: center; }
@@ -219,7 +324,7 @@
         }
         
         /* =========================================
-           5. NEW CURSOR TRAIL STYLES (ADJUSTED)
+           6. CURSOR TRAIL STYLES
            ========================================= */
         #cursor-trail-container {
             position: fixed;
@@ -232,18 +337,17 @@
 
         .trail-element {
             position: absolute;
-            width: 6px; /* Decreased size */
-            height: 6px; /* Decreased size */
+            width: 6px; 
+            height: 6px; 
             background-color: var(--color-primary);
             border-radius: 50%;
             opacity: 0;
-            /* Remove fixed CSS transition to use JavaScript smoothing for less lag */
-            transform: translate(-50%, -50%); /* Center the element on the position */
+            transform: translate(-50%, -50%); 
             box-shadow: 0 0 3px var(--color-primary), 0 0 6px var(--color-secondary);
         }
         /* Color variation for the trail */
         .trail-element:nth-child(even) { background-color: var(--color-secondary); }
-        .trail-element:nth-child(3n) { transform: translate(-50%, -50%) scale(0.6); } /* Size variation */
+        .trail-element:nth-child(3n) { transform: translate(-50%, -50%) scale(0.6); } 
 
 
         /* Animations */
@@ -270,17 +374,12 @@
     <div class="vignette"></div>
 
     <div id="cursor-trail-container">
-        <div class="trail-element"></div>
-        <div class="trail-element"></div>
-        <div class="trail-element"></div>
-        <div class="trail-element"></div>
-        <div class="trail-element"></div>
-        <div class="trail-element"></div>
-        <div class="trail-element"></div>
-        <div class="trail-element"></div>
-        <div class="trail-element"></div>
+        <div class="trail-element"></div><div class="trail-element"></div><div class="trail-element"></div>
+        <div class="trail-element"></div><div class="trail-element"></div><div class="trail-element"></div>
+        <div class="trail-element"></div><div class="trail-element"></div><div class="trail-element"></div>
         <div class="trail-element"></div>
     </div>
+
     <div class="main-container">
         
         <div class="title-wrapper">
@@ -316,6 +415,42 @@
         </div>
     </div>
 
+    <div class="why-aero-section">
+        <h2 class="why-aero-heading">WHY AERO?</h2>
+        <div class="feature-grid">
+            
+            <div class="feature-card">
+                <h3 class="card-title">Secure Execution</h3>
+                <p class="card-description">Our scripts operate within a highly secured environment, minimizing risk while maximizing performance.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3 class="card-title">No Lag</h3>
+                <p class="card-description">Optimized code ensures minimal resource usage, providing a smooth, flawless experience without performance impact.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3 class="card-title">24/7 Developer Support</h3>
+                <p class="card-description">Immediate assistance from our dedicated development team is always available, ensuring quick resolution of any issue.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3 class="card-title">Undetected Scripts</h3>
+                <p class="card-description">We prioritize stealth and stability through constant updates, keeping our scripts off the radar and operational.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3 class="card-title">Active Development</h3>
+                <p class="card-description">New features and continuous improvements are rolled out daily, keeping our offerings fresh, functional, and superior.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3 class="card-title">Community Driven</h3>
+                <p class="card-description">We listen to our users. Your feedback directly shapes our updates and future script development.</p>
+            </div>
+
+        </div>
+    </div>
     <div class="modal-overlay" id="bioModal" onclick="closeBioModal(event)">
         <div class="modal-card" id="modalCard">
             <button class="close-modal" onclick="forceCloseModal()">×</button>
@@ -349,7 +484,7 @@
 
     <script>
         /* =========================================
-           1. STARFIELD
+           1. STARFIELD (FIXED VISIBILITY)
            ========================================= */
         const canvas = document.getElementById('warp-canvas');
         const ctx = canvas.getContext('2d');
@@ -357,7 +492,7 @@
         let stars = [];
         const numStars = 500;
         const speedBase = 2;
-        let starAnimationId = null; // Store animation ID
+        let starAnimationId = null; 
 
         function resize() {
             width = window.innerWidth;
@@ -399,22 +534,32 @@
         for (let i = 0; i < numStars; i++) stars.push(new Star());
         
         function animateStars() {
-            // Check visibility state to prevent black screen on minimize/unfocus
-            if (document.hidden) {
-                // If minimized/hidden, clear with higher opacity to prevent full fade, 
-                // but keep the animation running (browsers might pause this anyway)
-                ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; 
-            } else {
-                // Normal draw decay
+            // Only clear the canvas if the document is NOT hidden (i.e., visible)
+            // If hidden, the animation loop might still run slowly, but we skip the decay
+            // to preserve the existing star trails.
+            if (!document.hidden) {
                 ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+                ctx.fillRect(0, 0, width, height);
             }
-            ctx.fillRect(0, 0, width, height);
+            
             stars.forEach(star => { star.update(); star.draw(); });
             starAnimationId = requestAnimationFrame(animateStars);
         }
+        
+        // **FIX**: Stop and restart animation on visibility change
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                cancelAnimationFrame(starAnimationId);
+            } else {
+                // Ensure the canvas is cleared immediately when restoring visibility
+                // to prevent potential stacking artifacts from the pause.
+                ctx.clearRect(0, 0, width, height); 
+                animateStars();
+            }
+        }
 
-        // Start animation
-        animateStars();
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        animateStars(); // Start animation initially
 
         /* =========================================
            2. TYPEWRITER
@@ -469,7 +614,6 @@
             
             // Random Loading Logic (1s to 5s with stutters)
             let currentWidth = 0;
-            const totalDuration = Math.random() * 4000 + 1000; // 1000ms to 5000ms
             
             const randomLoad = () => {
                 if (currentWidth >= 100) {
@@ -491,7 +635,6 @@
                 
                 bar.style.width = currentWidth + '%';
                 
-                // If we are getting close to 100, normalize speed slightly
                 setTimeout(randomLoad, delay);
             };
 
@@ -566,14 +709,11 @@
             }, 100);
         }
 
-        // Align Discord Arrow JS (Fallback if CSS alignment is weird on some screens)
+        // Align Discord Arrow JS 
         function alignArrow() {
             const btn = document.getElementById('btnDiscord');
             const arrow = document.getElementById('discordArrow');
             if(btn && arrow) {
-                // Since arrow is absolute in button container, we can tweak left style
-                // but css 'left: 20%' is approximate. 
-                // Let's rely on CSS flex centering, arrow is absolute to button-group.
                 const groupRect = document.querySelector('.button-group').getBoundingClientRect();
                 const btnRect = btn.getBoundingClientRect();
                 const offset = btnRect.left - groupRect.left + (btnRect.width/2);
@@ -581,47 +721,38 @@
             }
         }
         window.addEventListener('resize', alignArrow);
-        // Run once after slight delay to ensure render
         setTimeout(alignArrow, 100);
 
 
         /* =========================================
-           4. NEW CURSOR TRAIL LOGIC (SMOOTHED)
+           4. CURSOR TRAIL LOGIC (SMOOTHED)
            ========================================= */
         const trailElements = Array.from(document.querySelectorAll('.trail-element'));
         
-        // Use an array of objects to store the actual position for smoothing
         const trailPositions = trailElements.map(() => ({ x: 0, y: 0, targetX: 0, targetY: 0 }));
-        const smoothingFactor = 0.15; // Lower number means more drag/lag, higher means tighter trail
+        const smoothingFactor = 0.15; 
 
-        // 1. Mouse movement updates the target position
         document.addEventListener('mousemove', (e) => {
             trailPositions[0].targetX = e.clientX;
             trailPositions[0].targetY = e.clientY;
             
-            // Set the first element's current position to the target for instant movement
             trailPositions[0].x = e.clientX;
             trailPositions[0].y = e.clientY;
             trailElements[0].style.opacity = '1';
         });
 
-        // 2. Animation loop for the trailing effect using smoothing (Lerp)
         function animateTrail() {
-            // Update position of the first element (instant to cursor)
             trailElements[0].style.left = trailPositions[0].x + 'px';
             trailElements[0].style.top = trailPositions[0].y + 'px';
 
-            // Loop through trail elements starting from the second one (index 1)
             for (let i = 1; i < trailElements.length; i++) {
                 const current = trailPositions[i];
-                const target = trailPositions[i - 1]; // The target is the position of the element before it
+                const target = trailPositions[i - 1]; 
                 const el = trailElements[i];
 
-                // Linear Interpolation (Lerp) for smooth movement
                 current.x += (target.x - current.x) * smoothingFactor;
                 current.y += (target.y - current.y) * smoothingFactor;
 
-                // Apply position to DOM
                 el.style.left = current.x + 'px';
                 el.style.top = current.y + 'px';
                 el.style.opacity = '0.8'; 
@@ -629,7 +760,6 @@
             requestAnimationFrame(animateTrail);
         }
 
-        // 3. Handle mouseout/mouseenter to fade the trail
         document.addEventListener('mouseenter', () => {
             trailElements.forEach(el => el.style.opacity = '0.8');
         });
@@ -637,9 +767,9 @@
             trailElements.forEach(el => el.style.opacity = '0');
         });
 
-        animateTrail(); // Start the trail animation loop
+        animateTrail();
         /* =========================================
-           END NEW CURSOR TRAIL LOGIC
+           END CURSOR TRAIL LOGIC
            ========================================= */
 
     </script>
